@@ -2,21 +2,34 @@
     "name": "{{npmName}}",
     "version": "{{npmVersion}}",
     "description": "JQuery client for {{npmName}}",
-    "main": "api.js",
-    "scripts": {
-        "build": "tsc"
-    },
     "author": "Swagger Codegen Contributors",
     "license": "MIT",
-    "dependencies": {
-        "bluebird": "^3.3.5",
-        "request": "^2.72.0",
-        "jquery": "^3.1.1"
+    "main": "api.js",
+    "scripts": {
+        "clean": "rm -f api.js",
+        "prebuild": "npm run clean",
+        "prewatch": "npm run clean",
+        "build": "browserify index.ts -p [tsify] --debug | exorcist api.js.map > api.js",
+        "watch": "watchify index.ts -p [tsify] -v --debug -o api.js",
+        "serve": "browser-sync start --server --port 9000 .",
+        "start": "npm-run-all --parallel watch serve"
     },
     "devDependencies": {
-        "typescript": "2.2.2",
-        "typings": "^1.3.0"
-    }{{#npmRepository}},
+        "@types/bluebird": "^3.5.20",
+        "@types/jquery": "^2.0.49",
+        "@types/request": "^2.47.0",
+        "bluebird": "^3.5.1",
+        "browserify": "^13.1.1",
+        "browser-sync": "^2.23.7",
+        "exorcist": "^1.0.1",
+        "jquery": "^3.3.1",
+        "npm-run-all": "^4.1.2",
+        "request": "^2.85.0",
+        "tsify": "^4.0.0",
+        "typescript": "^2.8.3",
+        "watchify": "^3.8.0"
+    },
+    "dependencies": {}{{#npmRepository}},
     "publishConfig":{
         "registry":"{{npmRepository}}"
     }{{/npmRepository}}
